@@ -1,166 +1,110 @@
 import { useState } from 'react'
 import '../index.css'
 
-const categories = [
-  { id: 'all', label: 'すべて', emoji: '' },
-  { id: 'housing', label: '住宅ローン', emoji: '🏠' },
-  { id: 'card', label: 'カードローン', emoji: '💳' },
-  { id: 'account', label: '口座・預金', emoji: '🏦' },
-  { id: 'internet', label: 'インターネットバンキング', emoji: '💻' },
-  { id: 'cardloan', label: 'カード・ローン', emoji: '🔖' },
+const services = [
+  { icon: '🏠', title: '住宅ローン', desc: '変動金利 年0.475%〜', color: '#e8f0fe' },
+  { icon: '💳', title: 'カードローン', desc: '年1.5%〜14.6%', color: '#fef3e0' },
+  { icon: '🏦', title: '口座開設', desc: '最短即日開設', color: '#e8f5e9' },
+  { icon: '💻', title: 'ネットバンキング', desc: '24時間お取引', color: '#f3e5f5' },
+]
+
+const news = [
+  { date: '2026.04.25', text: 'ゴールデンウィーク期間中の営業のご案内' },
+  { date: '2026.04.20', text: '住宅ローン金利引き下げキャンペーン実施中' },
+  { date: '2026.04.15', text: 'スマートフォンアプリ リニューアルのお知らせ' },
+  { date: '2026.04.10', text: 'インターネットバンキング メンテナンスのお知らせ（5/3）' },
 ]
 
 const faqs = [
-  {
-    category: 'housing',
-    title: '住宅ローン',
-    emoji: '🏠',
-    items: [
-      { q: '住宅ローンの金利タイプにはどのような種類がありますか？', a: '変動金利型、固定金利期間選択型、全期間固定金利型の3種類があります。変動金利は年0.475%〜、固定金利（10年）は年1.5%〜となっています。', tag: '人気' },
-      { q: '住宅ローンの審査にはどのくらいの期間がかかりますか？', a: '仮審査は最短即日〜3営業日、本審査は1〜2週間程度です。必要書類が揃っている場合はよりスムーズに進みます。', tag: '' },
-      { q: '繰り上げ返済はいつでもできますか？手数料はかかりますか？', a: 'はい、一部繰り上げ返済と全額繰り上げ返済の両方に対応しています。手数料は商品によって異なります。', tag: '' },
-      { q: '住宅ローンの借り換えを検討しています。どのような手続きが必要ですか？', a: '借り換え審査の申込、必要書類の提出、審査通過後に契約手続きとなります。お近くの窓口またはWebでご相談ください。', tag: '' },
-      { q: '団体信用生命保険（団信）への加入は必須ですか？', a: '原則として団信への加入が必要です。健康状態によっては加入できない場合もございます。', tag: '重要' },
-    ]
-  },
-  {
-    category: 'card',
-    title: 'カードローン',
-    emoji: '💳',
-    items: [
-      { q: 'スターワンカードローンの金利（利率）を教えてください。', a: '年1.5%〜14.6%（変動金利）です。ご利用限度額に応じて適用金利が異なります。', tag: '人気' },
-      { q: 'カードローンの申し込みから利用開始まで、どのくらいかかりますか？', a: 'Web申込の場合、最短即日〜3営業日で審査結果をお知らせします。', tag: '' },
-      { q: 'カードローンの返済方法は？', a: '毎月の約定返済（口座引落）のほか、ATMやインターネットバンキングからの随時返済も可能です。', tag: '' },
-    ]
-  },
-  {
-    category: 'account',
-    title: '口座・預金',
-    emoji: '🏦',
-    items: [
-      { q: '口座開設に必要な書類は？', a: '本人確認書類（運転免許証、マイナンバーカード等）が必要です。オンラインでの口座開設も可能です。', tag: '' },
-      { q: '口座開設にかかる時間は？', a: 'オンライン申込の場合、最短即日〜3営業日で口座開設が完了します。', tag: '' },
-    ]
-  },
-  {
-    category: 'internet',
-    title: 'インターネットバンキング',
-    emoji: '💻',
-    items: [
-      { q: 'インターネットバンキングの利用登録方法は？', a: 'キャッシュカードと届出電話番号があれば、Webから即時登録できます。', tag: '' },
-      { q: '振込の上限額は変更できますか？', a: 'はい、インターネットバンキングの設定画面から1日あたりの振込上限額を変更できます。', tag: '' },
-    ]
-  },
+  { category: '住宅ローン', items: [
+    { q: '住宅ローンの金利タイプにはどのような種類がありますか？', a: '変動金利型、固定金利期間選択型、全期間固定金利型の3種類があります。' },
+    { q: '住宅ローンの審査にはどのくらいの期間がかかりますか？', a: '仮審査は最短即日〜3営業日、本審査は1〜2週間程度です。' },
+    { q: '繰り上げ返済はいつでもできますか？', a: 'はい、一部繰り上げ返済と全額繰り上げ返済の両方に対応しています。' },
+  ]},
+  { category: 'カードローン', items: [
+    { q: 'カードローンの金利を教えてください。', a: '年1.5%〜14.6%（変動金利）です。ご利用限度額に応じて適用金利が異なります。' },
+    { q: '申し込みから利用開始まで、どのくらいかかりますか？', a: 'Web申込の場合、最短即日〜3営業日で審査結果をお知らせします。' },
+  ]},
+  { category: '口座・預金', items: [
+    { q: '口座開設に必要な書類は？', a: '本人確認書類（運転免許証、マイナンバーカード等）が必要です。' },
+    { q: '口座開設にかかる時間は？', a: 'オンライン申込の場合、最短即日〜3営業日で完了します。' },
+  ]},
 ]
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [searchQuery, setSearchQuery] = useState('')
   const [expandedQ, setExpandedQ] = useState<string | null>(null)
-
-  const filteredFaqs = faqs
-    .filter(section => activeCategory === 'all' || section.category === activeCategory)
-    .map(section => ({
-      ...section,
-      items: section.items.filter(item =>
-        searchQuery === '' || item.q.includes(searchQuery) || item.a.includes(searchQuery)
-      )
-    }))
-    .filter(section => section.items.length > 0)
 
   return (
     <div style={{ minHeight: '100vh', background: '#f5f6fa' }}>
       {/* Header */}
-      <header style={{ background: '#1a2b6d', color: 'white', padding: '0 24px', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ fontWeight: 'bold', fontSize: 18 }}>東京★スター銀行</div>
-        <nav style={{ display: 'flex', gap: 24, fontSize: 14 }}>
-          <span>個人のお客さま</span>
-          <span>法人のお客さま</span>
-          <span>店舗・ATM</span>
-          <span>お問い合わせ</span>
+      <header style={{ background: '#0d1b4c', color: 'white', padding: '0 32px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ fontWeight: 'bold', fontSize: 20, letterSpacing: 1 }}>東京★スター銀行</div>
+        <nav style={{ display: 'flex', gap: 28, fontSize: 14 }}>
+          {['個人のお客さま', '法人のお客さま', '店舗・ATM', 'お問い合わせ'].map(item => (
+            <span key={item} style={{ cursor: 'pointer', opacity: 0.85 }}>{item}</span>
+          ))}
         </nav>
       </header>
 
-      {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #1a2b6d 0%, #2d4aaa 100%)', color: 'white', textAlign: 'center', padding: '48px 24px' }}>
-        <h1 style={{ fontSize: 32, marginBottom: 8 }}>よくあるご質問（FAQ）</h1>
-        <p style={{ opacity: 0.8, marginBottom: 24 }}>お客さまからよくいただくご質問をまとめました。</p>
-        <div style={{ maxWidth: 600, margin: '0 auto', display: 'flex', gap: 8 }}>
-          <input
-            type="text"
-            placeholder="キーワードで検索（例：住宅ローン 金利）"
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            style={{ flex: 1, padding: '12px 16px', borderRadius: 8, border: 'none', fontSize: 15 }}
-          />
-          <button style={{ padding: '12px 24px', borderRadius: 8, border: 'none', background: '#f5a623', color: 'white', fontWeight: 'bold', cursor: 'pointer', fontSize: 15 }}>
-            検索
+      {/* Hero Banner */}
+      <div style={{ background: 'linear-gradient(135deg, #0d1b4c 0%, #1e3a8a 50%, #3b82f6 100%)', color: 'white', textAlign: 'center', padding: '64px 24px' }}>
+        <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 12 }}>あなたの未来を、ともに。</h1>
+        <p style={{ fontSize: 16, opacity: 0.8, marginBottom: 32 }}>東京スター銀行は、お客さま一人ひとりに寄り添った金融サービスを提供します。</p>
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button style={{ padding: '14px 32px', borderRadius: 8, border: '2px solid white', background: 'transparent', color: 'white', fontSize: 15, cursor: 'pointer', fontWeight: 600 }}>
+            口座開設はこちら
+          </button>
+          <button style={{ padding: '14px 32px', borderRadius: 8, border: 'none', background: '#f59e0b', color: 'white', fontSize: 15, cursor: 'pointer', fontWeight: 600 }}>
+            ローンシミュレーション
           </button>
         </div>
       </div>
 
-      {/* Content */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '32px 24px' }}>
-        {/* Category tabs */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 32, flexWrap: 'wrap' }}>
-          {categories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              style={{
-                padding: '8px 20px',
-                borderRadius: 24,
-                border: activeCategory === cat.id ? 'none' : '1px solid #ddd',
-                background: activeCategory === cat.id ? '#1a2b6d' : 'white',
-                color: activeCategory === cat.id ? 'white' : '#333',
-                cursor: 'pointer',
-                fontSize: 14,
-              }}
-            >
-              {cat.label}
-            </button>
+      {/* Services */}
+      <div style={{ maxWidth: 1000, margin: '-40px auto 0', padding: '0 24px', position: 'relative', zIndex: 10 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {services.map(s => (
+            <div key={s.title} style={{ background: 'white', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', cursor: 'pointer' }}>
+              <div style={{ fontSize: 36, marginBottom: 8 }}>{s.icon}</div>
+              <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 4 }}>{s.title}</div>
+              <div style={{ color: '#1e3a8a', fontSize: 13, fontWeight: 500 }}>{s.desc}</div>
+            </div>
           ))}
         </div>
+      </div>
 
-        {/* FAQ sections */}
-        {filteredFaqs.map(section => (
-          <div key={section.category} style={{ marginBottom: 40 }}>
-            <h2 style={{ color: '#1a2b6d', borderBottom: '3px solid #1a2b6d', paddingBottom: 8, fontSize: 20 }}>
-              {section.emoji} {section.title}
-            </h2>
+      {/* News */}
+      <div style={{ maxWidth: 1000, margin: '48px auto', padding: '0 24px' }}>
+        <h2 style={{ fontSize: 22, color: '#0d1b4c', marginBottom: 16, borderLeft: '4px solid #1e3a8a', paddingLeft: 12 }}>お知らせ</h2>
+        <div style={{ background: 'white', borderRadius: 12, boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
+          {news.map((n, i) => (
+            <div key={i} style={{ padding: '14px 20px', borderBottom: i < news.length - 1 ? '1px solid #f0f0f0' : 'none', display: 'flex', gap: 16, alignItems: 'center', cursor: 'pointer' }}>
+              <span style={{ color: '#888', fontSize: 13, flexShrink: 0 }}>{n.date}</span>
+              <span style={{ fontSize: 14 }}>{n.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div style={{ maxWidth: 1000, margin: '48px auto', padding: '0 24px' }}>
+        <h2 style={{ fontSize: 22, color: '#0d1b4c', marginBottom: 16, borderLeft: '4px solid #1e3a8a', paddingLeft: 12 }}>よくあるご質問</h2>
+        {faqs.map(section => (
+          <div key={section.category} style={{ marginBottom: 24 }}>
+            <h3 style={{ fontSize: 16, color: '#1e3a8a', marginBottom: 8 }}>{section.category}</h3>
             {section.items.map(faq => (
               <div
                 key={faq.q}
                 onClick={() => setExpandedQ(expandedQ === faq.q ? null : faq.q)}
-                style={{
-                  padding: '16px 20px',
-                  margin: '8px 0',
-                  background: 'white',
-                  borderRadius: 8,
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                }}
+                style={{ padding: '14px 20px', margin: '6px 0', background: 'white', borderRadius: 8, cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ background: '#1a2b6d', color: 'white', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 'bold', flexShrink: 0 }}>Q</span>
-                  <span style={{ fontWeight: 500 }}>{faq.q}</span>
-                  {faq.tag && (
-                    <span style={{
-                      fontSize: 11,
-                      padding: '2px 8px',
-                      borderRadius: 4,
-                      background: faq.tag === '人気' ? '#fff3cd' : '#f8d7da',
-                      color: faq.tag === '人気' ? '#856404' : '#721c24',
-                      flexShrink: 0,
-                    }}>
-                      {faq.tag}
-                    </span>
-                  )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ background: '#0d1b4c', color: 'white', borderRadius: '50%', width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 'bold', flexShrink: 0 }}>Q</span>
+                  <span style={{ fontSize: 14, fontWeight: 500 }}>{faq.q}</span>
+                  <span style={{ marginLeft: 'auto', color: '#aaa', flexShrink: 0 }}>{expandedQ === faq.q ? '▲' : '▼'}</span>
                 </div>
                 {expandedQ === faq.q && (
-                  <div style={{ marginTop: 12, paddingLeft: 40, color: '#555', lineHeight: 1.7 }}>
-                    {faq.a}
-                  </div>
+                  <div style={{ marginTop: 10, paddingLeft: 36, color: '#555', fontSize: 14, lineHeight: 1.7 }}>{faq.a}</div>
                 )}
               </div>
             ))}
@@ -169,8 +113,29 @@ function App() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#1a2b6d', color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: 24, fontSize: 13 }}>
-        © 2026 東京スター銀行 FAQ（デモ用）
+      <footer style={{ background: '#0d1b4c', color: 'rgba(255,255,255,0.5)', padding: '32px 24px', marginTop: 48 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+          <div>
+            <div style={{ color: 'white', fontWeight: 'bold', fontSize: 16, marginBottom: 12 }}>東京★スター銀行</div>
+            <div style={{ fontSize: 12, lineHeight: 1.8 }}>
+              〒107-8480 東京都港区赤坂2-3-5<br/>
+              お客さま相談室: 0120-XXX-XXX
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 32, fontSize: 13 }}>
+            <div>
+              <div style={{ color: 'white', fontWeight: 600, marginBottom: 8 }}>サービス</div>
+              <div style={{ lineHeight: 2 }}>住宅ローン<br/>カードローン<br/>口座開設</div>
+            </div>
+            <div>
+              <div style={{ color: 'white', fontWeight: 600, marginBottom: 8 }}>サポート</div>
+              <div style={{ lineHeight: 2 }}>よくあるご質問<br/>お問い合わせ<br/>店舗・ATM</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ maxWidth: 1000, margin: '24px auto 0', paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: 12, textAlign: 'center' }}>
+          © 2026 東京スター銀行（デモ用）
+        </div>
       </footer>
     </div>
   )
